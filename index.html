@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="/public/image/logo.jpeg" type="image/png">
+    <title>Kalkulator Lot XAUUSD</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrap">
+        <div class="grid cols-3">
+          <div>
+            <label for="equity">Equity</label>
+            <input id="equity" type="number" step="0.01" placeholder="mis. 5000" />
+          </div>
+          <div>
+            <label for="risk">Risk (%)</label>
+            <input id="risk" type="number" step="0.01" placeholder="mis. 5" />
+          </div>
+          <div>
+            <label for="slprice">SL / Tick</label>
+            <input id="slprice" type="number" step="0.001" placeholder="mis. 0.727 atau 727" />
+            <div class="hint">Jika angka > 10, dianggap Tick, otomatis dibagi 1000.</div>
+          </div>
+        </div>
+        <div class="hint">Masukkan semua data untuk menghitung lot.</div>
+      </div>
+
+      <div class="badge">Langkah Perhitungan (TradingView)</div>
+      <div class="panels">
+        <div class="mode" id="tv">
+          <div class="step">1) Hitung <strong>Risk Amount</strong>: <span class="formula">RiskUSD = Equity × (Risk% / 100)</span></div>
+          <div class="step">2) Nilai rugi per 1 lot: <span class="formula">Loss/lot = SL × 10</span></div>
+          <div class="step">3) Lot size: <span class="formula">Lot = RiskUSD / (SL × 10)</span></div>
+          <div class="note">Catatan: 1 lot = 10 troy ounce → pergerakan $1 bernilai $10 per lot.</div>
+        </div>
+      </div>
+
+      <div class="badge">Kolom Hasil (otomatis)</div>
+      <div class="result-box">
+        <span class="result-tag">Lot yang akan dipakai</span>
+        <span class="result" id="lotResult">0.00</span>
+      </div>
+    </div>
+
+    <script>
+      const equityInput = document.getElementById("equity");
+      const riskInput = document.getElementById("risk");
+      const slInput = document.getElementById("slprice");
+      const lotResult = document.getElementById("lotResult");
+
+      function calculateLot() {
+        const equity = parseFloat(equityInput.value);
+        const riskPercent = parseFloat(riskInput.value);
+        let sl = parseFloat(slInput.value);
+
+        if (isNaN(equity) || isNaN(riskPercent) || isNaN(sl) || equity <= 0 || riskPercent <= 0 || sl <= 0) {
+          lotResult.textContent = "0.00";
+          return;
+        }
+
+        // Jika tick > 10, dianggap tick, ubah ke SL price
+        if (sl > 10) {
+          sl = sl / 1000;
+        }
+
+        const riskUSD = equity * (riskPercent / 100);
+
+        // TradingView 1 lot = 10 XAU, pergerakan $1 = $10 per lot
+        const lossPerLot = sl * 100; // perbaikan: kalikan 100
+        const lot = riskUSD / lossPerLot;
+
+        lotResult.textContent = lot.toFixed(2);
+      }
+
+      equityInput.addEventListener("input", calculateLot);
+      riskInput.addEventListener("input", calculateLot);
+      slInput.addEventListener("input", calculateLot);
+    </script>
+  </body>
+</html>

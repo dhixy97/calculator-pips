@@ -1,0 +1,138 @@
+/* Reset dan font */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e1f25; /* tetap gelap */
+    color: #e0e0e0;
+    padding: 20px;
+}
+
+/* Wrapper utama */
+.container {
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: #2f323c; /* agak terang */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    gap: 20px;
+}
+
+.grid.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+}
+
+input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background-color: #3a3c44;
+    color: #e0e0e0;
+}
+
+input:focus {
+    outline: none;
+    border-color: #0077ff;
+    background-color: #454854;
+}
+
+/* Badge */
+.badge {
+    display: block;
+    text-align: center;
+    margin: 20px auto 10px auto;
+    background-color: #0077ff;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+/* Panels */
+.panels .mode {
+    display: block;
+}
+
+.step {
+    margin: 8px 0;
+}
+
+.step .formula {
+    background-color: #3e4150;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #fff;
+}
+
+/* Result box */
+.result-box {
+    padding: 12px;
+    border: 1px solid #0077ff;
+    border-radius: 8px;
+    background-color: #3a3f50;
+    margin-top: 15px;
+}
+
+.result-tag {
+    display: block;
+    font-size: 13px;
+    color: #0077ff;
+    margin-bottom: 4px;
+}
+
+.result {
+    font-size: 20px;
+    font-weight: bold;
+    min-width: 80px;
+    display: inline-block;
+    color: #fff;
+    cursor: text;
+}
+
+/* Hint */
+.hint {
+    font-size: 13px;
+    color: #b0b0b0;
+    margin-top: 4px;
+}
+
+/* Card contoh */
+.card {
+    border: 1px solid #44475a;
+    border-radius: 10px;
+    padding: 14px;
+    background-color: #353944;
+}
+
+.card div {
+    font-size: 13px;
+    color: #cfd8ff;
+}
+
+.card .step {
+    margin-top: 8px;
+}
+
+/* Responsif kecil */
+@media (max-width: 600px) {
+    .grid.cols-3 {
+        grid-template-columns: 1fr;
+    }
+}
