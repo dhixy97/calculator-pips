@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="logo.jpeg" type="image/png">
     <title>Kalkulator Lot XAUUSD</title>
   </head>
   <body>
@@ -25,7 +24,23 @@
             <div class="hint">Jika angka > 10, dianggap Tick, otomatis dibagi 1000.</div>
           </div>
         </div>
-        <div class="hint">Masukkan semua data untuk menghitung lot.</div>
+        <div class="grid cols-3" style="margin-top:20px;">
+          <div>
+            <label for="tvPrice">Harga TradingView (SL)</label>
+            <input id="tvPrice" type="number" step="0.01" placeholder="mis. 3365.20" />
+          </div>
+          <div>
+            <label for="direction">Arah Order</label>
+            <select id="direction">
+              <option value="buy">Buy</option>
+              <option value="sell">Sell</option>
+            </select>
+          </div>
+          <div>
+            <label>SL versi Exness</label>
+            <div class="result" id="exnessSL">0.00</div>
+          </div>
+        </div>
       </div>
 
       <div class="badge">Langkah Perhitungan (TradingView)</div>
@@ -51,6 +66,10 @@
       const slInput = document.getElementById("slprice");
       const lotResult = document.getElementById("lotResult");
 
+      const tvPriceInput = document.getElementById("tvPrice");
+      const directionInput = document.getElementById("direction");
+      const exnessSL = document.getElementById("exnessSL");
+
       function calculateLot() {
         const equity = parseFloat(equityInput.value);
         const riskPercent = parseFloat(riskInput.value);
@@ -67,18 +86,37 @@
         }
 
         const riskUSD = equity * (riskPercent / 100);
-
-        // TradingView 1 lot = 10 XAU, pergerakan $1 = $10 per lot
-        const lossPerLot = sl * 100; // perbaikan: kalikan 100
+        const lossPerLot = sl * 100;
         const lot = riskUSD / lossPerLot;
 
         lotResult.textContent = lot.toFixed(2);
       }
 
+      function calculateExnessSL() {
+        const tvPrice = parseFloat(tvPriceInput.value);
+        const direction = directionInput.value;
+
+        if (isNaN(tvPrice)) {
+          exnessSL.textContent = "0.00";
+          return;
+        }
+
+        let adjustedSL;
+        if (direction === "buy") {
+          adjustedSL = tvPrice - 0.25;
+        } else {
+          adjustedSL = tvPrice + 0.25;
+        }
+
+        exnessSL.textContent = adjustedSL.toFixed(2);
+      }
+
       equityInput.addEventListener("input", calculateLot);
       riskInput.addEventListener("input", calculateLot);
       slInput.addEventListener("input", calculateLot);
+
+      tvPriceInput.addEventListener("input", calculateExnessSL);
+      directionInput.addEventListener("change", calculateExnessSL);
     </script>
   </body>
 </html>
-
